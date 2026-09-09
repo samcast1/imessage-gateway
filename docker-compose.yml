@@ -1,0 +1,9 @@
+services:
+  gateway:
+    build: .
+    container_name: imessage-gateway
+    restart: unless-stopped
+
+    ports:
+      - "100.78.146.104:8000:8000"
+      # - 100.110.36.70:8000:8000
