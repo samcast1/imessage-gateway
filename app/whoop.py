@@ -3,7 +3,7 @@
 import os
 import requests
 
-WHOOP_API_URL = os.environ["WHOOP_API_URL"]
+WHOOP_API_URL = os.environ["WHOOP_API"]
 
 
 def run_whoop(mode: str) -> str:
