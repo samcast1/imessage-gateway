@@ -1,28 +1,17 @@
 # app/whoop.py
 
-import subprocess
+import os
+import requests
 
-
-WHOOP_DIR = "/opt/whoop-daily-sms"
+WHOOP_API_URL = os.environ["WHOOP_API_URL"]
 
 
 def run_whoop(mode: str) -> str:
-    result = subprocess.run(
-        [
-            "docker",
-            "compose",
-            "run",
-            "--rm",
-            "whoop-daily-sms",
-            mode,
-        ],
-        cwd=WHOOP_DIR,
-        capture_output=True,
-        text=True,
-        timeout=120,
+    response = requests.post(
+        f"{WHOOP_API_URL}/{mode}",
+        timeout=90,
     )
 
-    if result.returncode != 0:
-        raise RuntimeError(result.stderr.strip())
+    response.raise_for_status()
 
-    return result.stdout.strip()
+    return response.json()["message"]

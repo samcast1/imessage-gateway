@@ -3,7 +3,15 @@ services:
     build: .
     container_name: imessage-gateway
     restart: unless-stopped
+    environment:
+      - WHOOP_API=http://whoop-api:8000
 
     ports:
       - "100.78.146.104:8000:8000"
       # - 100.110.36.70:8000:8000
+    networks:
+      - automation
+
+networks:
+  automation:
+    external: true
