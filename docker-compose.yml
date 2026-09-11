@@ -6,7 +6,7 @@ services:
     environment:
       - WHOOP_API=http://whoop-api:8000
     ports:
-      - "8000:8000"
+      - "100.78.146.104:8000:8000"
     networks:
       - automation
 
