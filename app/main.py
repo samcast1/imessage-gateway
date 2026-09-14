@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from app.commands import COMMANDS
+from app.agent import run_agent
+
 
 app = FastAPI(title="iMessage Gateway")
 
@@ -17,18 +18,8 @@ def health():
 
 @app.post("/command")
 def command(payload: Command):
-    command = payload.command.strip().lower()
-
-    handler = COMMANDS.get(command)
-
-    if handler is None:
-        return {
-            "success": False,
-            "response": f"I don't know how to handle: {command}",
-        }
-
     try:
-        response = handler()
+        response = run_agent(payload.command)
 
         return {
             "success": True,
@@ -38,5 +29,5 @@ def command(payload: Command):
     except Exception as e:
         return {
             "success": False,
-            "response": f"Command failed: {e}",
+            "response": f"Agent failed: {e}",
         }
